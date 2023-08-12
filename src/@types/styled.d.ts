@@ -1,7 +1,8 @@
-import 'syled-component/native'
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import 'styled-components/native'
 import theme from '../theme'
 
-declare module 'syled-component/native' {
+declare module 'styled-components/native' {
   type ThemeType = typeof theme
-  export type DefaultTheme = ThemeType
+  export interface DefaultTheme extends ThemeType {}
 }
