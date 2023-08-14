@@ -19,8 +19,8 @@ export default {
     GREEN_DARK: '#639339',
   },
   FONT_FAMILY: {
-    REGULAR: 'Roboto_400Regular',
-    BOLD: 'Roboto_700Bold',
+    REGULAR: 'NunitoSans_400Regular',
+    BOLD: 'NunitoSans_700Bold',
   },
   FONT_SIZE: {
     SM: 12,
