@@ -13,10 +13,17 @@ export const Logo = styled.Image`
   height: 37px;
 `
 
-export const Avatar = styled.Image`
+export const Content = styled.View`
   width: 40px;
   height: 40px;
+  border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
   border-radius: 999px;
-  border: ${({ theme }) => theme.COLORS.GRAY_600};
-  border-width: 2px;
+  overflow: hidden;
+`
+
+export const Avatar = styled.Image`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
 `
