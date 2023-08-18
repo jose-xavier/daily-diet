@@ -1,6 +1,6 @@
 import { TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import styled, { css } from 'styled-components/native'
+import styled from 'styled-components/native'
 
 export type ButtonTypeStyleProps = 'GRAY' | 'TRANSPARENT'
 

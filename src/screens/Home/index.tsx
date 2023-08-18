@@ -1,14 +1,73 @@
+import { useState } from 'react'
+import { SectionList } from 'react-native'
+
 import { Header } from '@components/Header'
-import { Container } from './styles'
 import { Porcent } from '@components/Porcent'
 import { Button } from '@components/Button'
+import { Meal } from '@components/Meal'
+
+import { MealDTO } from '@components/dtos/MealDTO'
+
+import moment from 'moment'
+
+import { Container, Title } from './styles'
+
+type MealItem = {
+  title: string
+  data: MealDTO[]
+}
 
 export function Home() {
+  const data = [
+    {
+      title: '2023-08-13T12:34:56.789Z',
+      data: [
+        {
+          id: '1',
+          name: 'X-Tudo',
+          description: 'fora da dieta',
+          date: '2023-08-13T12:34:56.789Z',
+          isDiet: false,
+        },
+        {
+          id: '2023-08-13T12:34:56.789Z',
+          name: 'pizza',
+          description: 'fora da dieta',
+          date: '2023-08-13T12:34:56.789Z',
+          isDiet: false,
+        },
+      ],
+    },
+    {
+      title: '2023-08-13T12:34:56.789Z',
+      data: [
+        {
+          id: '2',
+          name: 'omelete',
+          description: 'dentro da dieta',
+          date: '2023-08-13T12:34:56.789Z',
+          isDiet: true,
+        },
+      ],
+    },
+  ]
+
+  const [meal, setMeal] = useState<MealItem[]>(data)
+
   return (
     <Container>
       <Header />
       <Porcent subtitle="das refeições dentro da dieta" porcent={67} />
       <Button title="Nova refeição" icon="plus" color="GRAY" />
+      <SectionList
+        sections={meal}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Meal key={item.id} item={item} />}
+        renderSectionHeader={({ section: { title } }) => (
+          <Title>{moment(title).format('DD.MM.YY')}</Title>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
     </Container>
   )
 }
