@@ -9,6 +9,7 @@ export const Container = styled.View<StyleProps>`
   width: 100%;
   height: 102px;
   padding: 20px 16px;
+  margin: 36px 0;
   align-items: flex-end;
   justify-content: center;
   border-radius: 8px;
@@ -22,7 +23,7 @@ export const Title = styled.Text`
   margin-top: -20px;
 
   ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.XXL}px;
+    font-size: ${theme.FONT_SIZE.XXXL}px;
     font-family: ${theme.FONT_FAMILY.BOLD};
     color: ${theme.COLORS.GRAY_700};
   `}
