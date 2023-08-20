@@ -9,8 +9,9 @@ type Props = {
 }
 
 export const Container = styled(TouchableOpacity)`
-  height: 24px;
-  width: 24px;
+  min-height: 32px;
+  max-height: 32px;
+  width: 32px;
 
   align-items: center;
   justify-content: center;
@@ -27,8 +28,5 @@ export const Icon = styled(Feather).attrs<Props>(({ theme, type }) => ({
         return theme.COLORS.GRAY_600
     }
   })(),
-  size: 24,
-}))`
-  margin-top: -25px;
-  margin-right: -15px;
-`
+  size: 32,
+}))``

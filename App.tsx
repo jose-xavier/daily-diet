@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Home } from '@screens/Home'
+import { Register } from '@screens/Register'
 import theme from './src/theme'
 import { ThemeProvider } from 'styled-components'
 import {
@@ -11,5 +11,7 @@ import {
 export default function App() {
   const [fontIsLoaded] = useFonts({ NunitoSans_400Regular, NunitoSans_700Bold })
 
-  return <ThemeProvider theme={theme}>{fontIsLoaded && <Home />}</ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>{fontIsLoaded && <Register />}</ThemeProvider>
+  )
 }

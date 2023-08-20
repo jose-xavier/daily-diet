@@ -54,8 +54,8 @@ export function Home() {
     },
   ]
 
-  const [meals, setMeals] = useState<MealItem[]>([])
-  const { FONT_SIZE, COLORS } = useTheme()
+  const [meals, setMeals] = useState<MealItem[]>(data)
+  const { FONT_SIZE } = useTheme()
 
   return (
     <Container>

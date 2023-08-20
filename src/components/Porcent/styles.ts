@@ -8,7 +8,7 @@ export type StyleProps = {
 export const Container = styled.View<StyleProps>`
   width: 100%;
   height: 102px;
-  padding: 20px 16px;
+  padding: 0 4px;
   margin: 36px 0;
   align-items: flex-end;
   justify-content: center;
@@ -32,6 +32,7 @@ export const Title = styled.Text`
 export const Subtitle = styled.Text`
   width: 100%;
   text-align: center;
+  margin-bottom: 16px;
 
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
