@@ -5,7 +5,7 @@ import styled from 'styled-components/native'
 export type StatusColor = 'GREEN' | 'GRAY' | 'RED'
 
 type Props = {
-  type: StatusColor
+  type?: StatusColor
 }
 
 export const Container = styled(TouchableOpacity)`

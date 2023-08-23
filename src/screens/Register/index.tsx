@@ -14,6 +14,7 @@ import {
   Row,
   Title,
 } from './styles'
+import { ButtonSelect } from '@components/ButtonSelect'
 
 export function Register() {
   const [date, setDate] = useState(new Date())
@@ -88,6 +89,11 @@ export function Register() {
               />
             )}
           </DateAndTimeContainer>
+        </Row>
+        <Title>Está dentro da dieta?</Title>
+        <Row>
+          <ButtonSelect title="Sim" type="GREEN" />
+          <ButtonSelect title="Não" type="RED" />
         </Row>
       </Form>
     </Container>

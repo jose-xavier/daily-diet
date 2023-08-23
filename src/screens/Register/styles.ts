@@ -18,14 +18,7 @@ export const Row = styled.View`
   align-items: center;
   justify-content: center;
   gap: 16px;
-`
-
-export const ButtonSelect = styled(TouchableOpacity)`
-  max-height: 50px;
-  min-height: 50px;
-
-  border-radius: 6px;
-  border-color: ${({ theme }) => theme.COLORS.GRAY_400};
+  margin-bottom: 16px;
 `
 
 export const ButtonDate = styled(TouchableOpacity)`
