@@ -1,16 +1,13 @@
-import { TouchableOpacityProps } from 'react-native'
-import { Container, Status, StatusColor, Title } from './styles'
+import { PressableProps } from 'react-native'
+import { ButtonSelectStyleProps, Container, Status, Title } from './styles'
 
-type Props = TouchableOpacityProps & {
-  type: StatusColor
-  title: string
-}
+type Props = PressableProps & ButtonSelectStyleProps
 
-export function ButtonSelect({ title, type, ...rest }: Props) {
+export function ButtonSelect({ ...props }: Props) {
   return (
-    <Container {...rest} type={type}>
-      <Status type={type} />
-      <Title>{title}</Title>
+    <Container {...props}>
+      <Status color={props.color} title={props.title} />
+      <Title>{props.title}</Title>
     </Container>
   )
 }

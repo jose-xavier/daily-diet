@@ -18,6 +18,6 @@ export const Title = styled.Text`
   ${({ theme }) => css`
     color: ${theme.COLORS.GRAY_600};
     font-family: ${theme.FONT_FAMILY.BOLD};
-    font-size: ${theme.FONT_SIZE.XXL}px;
+    font-size: ${theme.FONT_SIZE.XL}px;
   `}
 `

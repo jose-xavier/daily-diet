@@ -6,7 +6,6 @@ export const Container = styled(SafeAreaView)`
 `
 export const Form = styled.ScrollView`
   flex: 1;
-
   margin-top: -28px;
   padding: 16px 24px;
 
@@ -46,7 +45,7 @@ export const Title = styled.Text`
   text-align: left;
   ${({ theme }) => css`
     color: ${theme.COLORS.GRAY_700};
-    font-size: ${theme.FONT_SIZE.XL}px;
+    font-size: ${theme.FONT_SIZE.LG}px;
     font-family: ${theme.FONT_FAMILY.BOLD};
   `}
 `

@@ -1,57 +1,49 @@
-import { TouchableOpacity } from 'react-native'
+import { Pressable } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
-export type StatusColor = 'GREEN' | 'RED'
-
-type Props = {
-  type: StatusColor
+export type ButtonSelectStyleProps = {
+  color?: 'RED' | 'GREEN'
+  isPressed?: boolean
+  title?: 'Sim' | 'Não'
 }
 
-export const Container = styled(TouchableOpacity)<Props>`
+export const Container = styled(Pressable)<ButtonSelectStyleProps>`
   max-height: 50px;
   min-height: 50px;
-
   flex: 1;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 8px;
-
   border-radius: 6px;
   border-width: 1px;
 
-  border-color: ${({ type, theme }) => {
-    switch (type) {
-      case 'GREEN':
-        return theme.COLORS.GREEN_DARK
-      case 'RED':
-        return theme.COLORS.RED_DARK
-
-      default:
-        return 'transparent'
+  border-color: ${({ color, theme, isPressed }) => {
+    if (isPressed) {
+      return color === 'GREEN' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK
+    } else {
+      return 'transparent'
     }
   }};
 
-  background-color: ${({ type, theme }) => {
-    switch (type) {
-      case 'GREEN':
-        return theme.COLORS.GREEN_LIGHT
-      case 'RED':
-        return theme.COLORS.RED_LIGHT
-
-      default:
-        return theme.COLORS.GRAY_300
+  background-color: ${({ color, theme, isPressed }) => {
+    if (isPressed) {
+      return color === 'GREEN'
+        ? theme.COLORS.GREEN_LIGHT
+        : theme.COLORS.RED_LIGHT
+    } else {
+      return theme.COLORS.GRAY_300
     }
   }};
 `
 
-export const Status = styled.View<Props>`
+export const Status = styled.View<ButtonSelectStyleProps>`
   height: 8px;
   width: 8px;
   border-radius: 999px;
 
-  background-color: ${({ type, theme }) =>
-    type === 'GREEN' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
+  background-color: ${({ title, theme }) =>
+    title === 'Sim' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
 `
 export const Title = styled.Text`
   ${({ theme }) => css`

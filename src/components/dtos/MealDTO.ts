@@ -1,7 +1,7 @@
 export type MealDTO = {
-  id: string
+  id: string | number[]
   name: string
   description: string
   date: string
-  isDiet: boolean
+  inDiet: boolean
 }
