@@ -11,7 +11,7 @@ export const Container = styled(TouchableOpacity)`
   width: 100%;
   min-height: 49px;
   max-height: 49px;
-  padding: 14px 12px;
+  padding: 12px;
   margin-top: 8px;
 
   border: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};

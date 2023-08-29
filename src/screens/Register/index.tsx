@@ -1,13 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import uuid from 'react-native-uuid'
+import { MealContext } from '../../../src/context/MealContext'
+import { useNavigation } from '@react-navigation/native'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format, setHours } from 'date-fns'
 import { z } from 'zod'
 import DateTimePicker from '@react-native-community/datetimepicker'
-
-import { mealGetAll } from '@storage/meal/mealGetAll'
-import { mealCreate } from '@storage/meal/mealCreate'
 
 import { ButtonSelect } from '@components/ButtonSelect'
 import { Button } from '@components/Button'
@@ -48,6 +47,9 @@ export function Register() {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [showTimePicker, setShowTimePicker] = useState(false)
 
+  const { addNewMeal } = useContext(MealContext)
+  const navigation = useNavigation()
+
   const {
     control,
     handleSubmit,
@@ -65,6 +67,10 @@ export function Register() {
     },
   })
 
+  function hangleGoToHomePage() {
+    navigation.navigate('home')
+  }
+
   async function handleAddNewMeal(data: newMealFormSchemaType) {
     const { name, description, date, hour, inDiet } = data
 
@@ -80,17 +86,14 @@ export function Register() {
     }
 
     try {
-      await mealCreate(newMeal)
-
-      const meals = await mealGetAll()
-
+      addNewMeal(newMeal)
       reset()
-      console.log(meals)
     } catch (error) {}
   }
+
   return (
     <Container>
-      <HeaderBackPage title="Nova refeição" />
+      <HeaderBackPage title="Nova refeição" onPress={hangleGoToHomePage} />
 
       <Form>
         <Controller
@@ -144,7 +147,7 @@ export function Register() {
                     <DateTimePicker
                       value={value || new Date()}
                       mode="date"
-                      display="spinner"
+                      display="calendar"
                       onChange={(event, selectedDate) => {
                         setShowDatePicker(false)
                         onChange(selectedDate)

@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useCallback, useContext } from 'react'
+import _ from 'lodash'
 import { SectionList, Text } from 'react-native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { MealContext } from '../../context/MealContext'
 
 import { Header } from '@components/Header'
 import { Porcent } from '@components/Porcent'
@@ -8,11 +11,10 @@ import { Meal } from '@components/Meal'
 
 import { MealDTO } from '@components/dtos/MealDTO'
 
-import moment from 'moment'
-
 import { Container, Title } from './styles'
 import { useTheme } from 'styled-components/native'
 import { ListEmpty } from '@components/ListEmpty'
+import { format, parse } from 'date-fns'
 
 type MealItem = {
   title: string
@@ -20,42 +22,54 @@ type MealItem = {
 }
 
 export function Home() {
-  const data = [
-    {
-      title: '2023-08-13T12:34:56.789Z',
-      data: [
-        {
-          id: '1',
-          name: 'X-Tudo',
-          description: 'fora da dieta',
-          date: '2023-08-13T12:34:56.789Z',
-          isDiet: false,
-        },
-        {
-          id: '2023-08-13T12:34:56.789Z',
-          name: 'pizza',
-          description: 'fora da dieta',
-          date: '2023-08-13T12:34:56.789Z',
-          isDiet: false,
-        },
-      ],
-    },
-    {
-      title: '2023-08-13T12:34:56.789Z',
-      data: [
-        {
-          id: '2',
-          name: 'Salada cesar com frango grelhado',
-          description: 'dentro da dieta',
-          date: '2023-08-13T12:34:56.789Z',
-          isDiet: true,
-        },
-      ],
-    },
-  ]
-
-  const [meals, setMeals] = useState<MealItem[]>(data)
+  const { fetchMeals, meals } = useContext(MealContext)
   const { FONT_SIZE } = useTheme()
+  const navigation = useNavigation()
+
+  function handleGoToRegisterPage() {
+    navigation.navigate('register')
+  }
+
+  const mealsHistory = meals.reduce((acc: MealItem[], meal) => {
+    const mealDate = new Date(meal.date)
+    const formattedDate = format(mealDate, 'dd.MM.yy')
+
+    const mealIndex = acc.findIndex((meal) => meal.title === formattedDate)
+
+    if (mealIndex !== -1) {
+      acc[mealIndex].data.push({
+        id: meal.id,
+        name: meal.name,
+        description: meal.description,
+        date: meal.date,
+        inDiet: meal.inDiet,
+      })
+    } else {
+      acc.push({
+        title: formattedDate,
+        data: [
+          {
+            id: meal.id,
+            name: meal.name,
+            description: meal.description,
+            date: meal.date,
+            inDiet: meal.inDiet,
+          },
+        ],
+      })
+    }
+
+    return acc
+  }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals()
+    }, []),
+  )
+
+  const formatDate = (dateString: string) =>
+    format(parse(dateString, 'dd.MM.yy', new Date()), 'dd.MM.yy')
 
   return (
     <Container>
@@ -65,14 +79,19 @@ export function Home() {
 
       <Text style={{ fontSize: FONT_SIZE.LG }}>Refeições</Text>
 
-      <Button title="Nova refeição" icon="plus" color="GRAY" />
+      <Button
+        title="Nova refeição"
+        icon="plus"
+        color="GRAY"
+        onPress={handleGoToRegisterPage}
+      />
 
       <SectionList
-        sections={meals}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Meal key={item.id} item={item} />}
+        sections={mealsHistory}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Meal item={item} />}
         renderSectionHeader={({ section: { title } }) => (
-          <Title>{moment(title).format('DD.MM.YY')}</Title>
+          <Title>{formatDate(title)}</Title>
         )}
         contentContainerStyle={
           meals.length === 0 && {
