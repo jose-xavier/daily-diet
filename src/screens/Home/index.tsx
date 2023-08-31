@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useContext } from 'react'
 import _ from 'lodash'
 import { SectionList, Text } from 'react-native'
@@ -8,13 +9,13 @@ import { Header } from '@components/Header'
 import { Porcent } from '@components/Porcent'
 import { Button } from '@components/Button'
 import { Meal } from '@components/Meal'
-
+import { useTheme } from 'styled-components/native'
+import { ListEmpty } from '@components/ListEmpty'
 import { MealDTO } from '@components/dtos/MealDTO'
 
 import { Container, Title } from './styles'
-import { useTheme } from 'styled-components/native'
-import { ListEmpty } from '@components/ListEmpty'
 import { format, parse } from 'date-fns'
+import { mealGetById } from '@storage/meal/mealGetById'
 
 type MealItem = {
   title: string
@@ -22,12 +23,17 @@ type MealItem = {
 }
 
 export function Home() {
-  const { fetchMeals, meals } = useContext(MealContext)
+  const { meals, fetchMeals } = useContext(MealContext)
   const { FONT_SIZE } = useTheme()
   const navigation = useNavigation()
 
   function handleGoToRegisterPage() {
     navigation.navigate('register')
+  }
+
+  async function handleGoToDetailsPage(id: string | number[]) {
+    const meal = await mealGetById(id)
+    navigation.navigate('details', { meal })
   }
 
   const mealsHistory = meals.reduce((acc: MealItem[], meal) => {
@@ -65,7 +71,7 @@ export function Home() {
   useFocusEffect(
     useCallback(() => {
       fetchMeals()
-    }, []),
+    }, [meals]),
   )
 
   const formatDate = (dateString: string) =>
@@ -89,7 +95,9 @@ export function Home() {
       <SectionList
         sections={mealsHistory}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Meal item={item} />}
+        renderItem={({ item }) => (
+          <Meal item={item} onPress={() => handleGoToDetailsPage(item.id)} />
+        )}
         renderSectionHeader={({ section: { title } }) => (
           <Title>{formatDate(title)}</Title>
         )}

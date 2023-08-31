@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import uuid from 'react-native-uuid'
 import { MealContext } from '../../../src/context/MealContext'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format, setHours } from 'date-fns'
@@ -22,6 +22,12 @@ import {
   Row,
   Title,
 } from './styles'
+import { MealDTO } from '@components/dtos/MealDTO'
+import { mealUpdate } from '@storage/meal/mealUpdate'
+
+type RouteParams = {
+  meal: MealDTO
+}
 
 const newMealFormSchema = z.object({
   name: z.string().min(1, { message: 'Por favor insira o nome da refeição' }),
@@ -49,21 +55,23 @@ export function Register() {
 
   const { addNewMeal } = useContext(MealContext)
   const navigation = useNavigation()
+  const route = useRoute()
+  const routeParams = route.params as RouteParams
+  const meal = routeParams?.meal
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
   } = useForm<newMealFormSchemaType>({
     resolver: zodResolver(newMealFormSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      date: new Date(),
-      hour: new Date(),
-      inDiet: undefined,
+      name: meal !== undefined ? meal.name : '',
+      description: meal !== undefined ? meal.description : '',
+      date: meal !== undefined ? new Date(meal.date) : new Date(),
+      hour: meal !== undefined ? new Date(meal.date) : new Date(),
+      inDiet: meal !== undefined ? meal.inDiet : undefined,
     },
   })
 
@@ -71,7 +79,7 @@ export function Register() {
     navigation.navigate('home')
   }
 
-  async function handleAddNewMeal(data: newMealFormSchemaType) {
+  async function handleCreateAndUpdateMeal(data: newMealFormSchemaType) {
     const { name, description, date, hour, inDiet } = data
 
     const newHour = Number(format(hour, 'HH'))
@@ -86,14 +94,22 @@ export function Register() {
     }
 
     try {
-      addNewMeal(newMeal)
-      reset()
+      if (meal !== undefined) {
+        await mealUpdate(meal.id, newMeal)
+      } else {
+        addNewMeal(newMeal)
+      }
+
+      hangleGoToHomePage()
     } catch (error) {}
   }
 
   return (
     <Container>
-      <HeaderBackPage title="Nova refeição" onPress={hangleGoToHomePage} />
+      <HeaderBackPage
+        title={meal !== undefined ? 'Editar refeição' : 'Refeição'}
+        onPress={hangleGoToHomePage}
+      />
 
       <Form>
         <Controller
@@ -212,10 +228,12 @@ export function Register() {
         />
 
         <Button
-          title="Cadastrar refeição"
+          title={
+            meal !== undefined ? 'Salvar Alterações' : 'Cadastrar Refeição'
+          }
           color="GRAY"
           style={{ marginBottom: 32 }}
-          onPress={handleSubmit(handleAddNewMeal)}
+          onPress={handleSubmit(handleCreateAndUpdateMeal)}
         />
       </Form>
     </Container>

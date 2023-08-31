@@ -1,5 +1,4 @@
 import { MealDTO } from '@components/dtos/MealDTO'
-import { useFocusEffect } from '@react-navigation/native'
 import { mealCreate } from '@storage/meal/mealCreate'
 import { mealGetAll } from '@storage/meal/mealGetAll'
 import { ReactNode, createContext, useCallback, useState } from 'react'
@@ -22,7 +21,6 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
   const fetchMeals = useCallback(async () => {
     const data = await mealGetAll()
     setMeals(data)
-    console.log(meals)
   }, [])
 
   async function addNewMeal(meal: MealDTO) {
