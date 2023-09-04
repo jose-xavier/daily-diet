@@ -6,7 +6,7 @@ export const Container = styled(SafeAreaView)`
 `
 export const Form = styled.ScrollView`
   flex: 1;
-  margin-top: -28px;
+  margin-top: -24px;
   padding: 16px 24px;
 
   background-color: ${({ theme }) => theme.COLORS.GRAY_200};

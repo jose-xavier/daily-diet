@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useContext } from 'react'
-import _ from 'lodash'
 import { SectionList, Text } from 'react-native'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import _ from 'lodash'
 import { MealContext } from '../../context/MealContext'
+import { format, parse } from 'date-fns'
+import { mealGetById } from '@storage/meal/mealGetById'
 
 import { Header } from '@components/Header'
 import { Porcent } from '@components/Porcent'
@@ -14,8 +16,6 @@ import { ListEmpty } from '@components/ListEmpty'
 import { MealDTO } from '@components/dtos/MealDTO'
 
 import { Container, Title } from './styles'
-import { format, parse } from 'date-fns'
-import { mealGetById } from '@storage/meal/mealGetById'
 
 type MealItem = {
   title: string
@@ -23,7 +23,7 @@ type MealItem = {
 }
 
 export function Home() {
-  const { meals, fetchMeals } = useContext(MealContext)
+  const { meals, fetchMeals, sumaryMeals } = useContext(MealContext)
   const { FONT_SIZE } = useTheme()
   const navigation = useNavigation()
 
@@ -81,7 +81,10 @@ export function Home() {
     <Container>
       <Header />
 
-      <Porcent subtitle="das refeições dentro da dieta" porcent={67} />
+      <Porcent
+        subtitle="das refeições dentro da dieta"
+        porcent={sumaryMeals.porcent}
+      />
 
       <Text style={{ fontSize: FONT_SIZE.LG }}>Refeições</Text>
 

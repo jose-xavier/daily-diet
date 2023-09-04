@@ -1,16 +1,18 @@
+import { SafeAreaView } from 'react-native-safe-area-context'
 import styled, { css } from 'styled-components/native'
 
-export type StatusColor = {
+export type HeaderStyleProps = {
   color?: 'RED' | 'GREEN' | 'GRAY'
+  type?: 'default' | 'statistic'
 }
 
-export const Container = styled.View<StatusColor>`
+export const Container = styled(SafeAreaView)<HeaderStyleProps>`
   width: 100%;
-  height: 132px;
+  height: ${({ type }) => (type === 'statistic' ? '200px' : '132px')};
   padding: 24px;
-
+  justify-content: space-between;
+  align-items: flex-start;
   flex-direction: row;
-  align-items: center;
   background-color: ${({ color, theme }) => {
     switch (color) {
       case 'GREEN':
@@ -25,14 +27,29 @@ export const Container = styled.View<StatusColor>`
   }};
 `
 
-export const Title = styled.Text`
-  flex: 1;
-  text-align: center;
+export const Title = styled.Text<HeaderStyleProps>`
+  align-self: center;
   margin-right: 16px;
-
-  ${({ theme }) => css`
+  ${({ theme, type }) => css`
     color: ${theme.COLORS.GRAY_700};
     font-family: ${theme.FONT_FAMILY.BOLD};
-    font-size: ${theme.FONT_SIZE.XL}px;
+    font-size: ${type === 'statistic'
+      ? `${theme.FONT_SIZE.XXXL}px`
+      : `${theme.FONT_SIZE.XL}px`};
   `}
+`
+
+export const Subtitle = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.GRAY_600};
+    font-family: ${theme.FONT_FAMILY.REGULAR};
+    font-size: ${theme.FONT_SIZE.LG}px;
+  `}
+`
+
+export const HeaderTitle = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
 `
