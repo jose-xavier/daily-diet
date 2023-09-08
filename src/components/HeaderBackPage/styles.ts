@@ -9,7 +9,7 @@ export type HeaderStyleProps = {
 export const Container = styled(SafeAreaView)<HeaderStyleProps>`
   width: 100%;
   height: ${({ type }) => (type === 'statistic' ? '200px' : '132px')};
-  padding: 24px;
+  padding: 8px 24px;
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: row;
@@ -19,11 +19,9 @@ export const Container = styled(SafeAreaView)<HeaderStyleProps>`
         return theme.COLORS.GREEN_LIGHT
       case 'RED':
         return theme.COLORS.RED_LIGHT
-      case 'GRAY':
-        return theme.COLORS.GRAY_300
-
       default:
-    }
+        return theme.COLORS.GRAY_300
+    } 
   }};
 `
 
@@ -51,5 +49,5 @@ export const HeaderTitle = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 6px;
 `

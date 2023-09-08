@@ -1,4 +1,4 @@
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 
 export declare global {
   namespace ReactNavigation {
@@ -11,6 +11,9 @@ export declare global {
       description: undefined
       details: {
         meal: MealDTO | undefined
+      }
+      feedback: {
+        inDiet: boolean | undefined
       }
     }
   }

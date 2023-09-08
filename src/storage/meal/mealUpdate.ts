@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 import { mealRemove } from './meallRemove'
 import { mealCreate } from './mealCreate'
 

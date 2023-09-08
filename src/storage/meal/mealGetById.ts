@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-catch */
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MEAL_COLLECTION } from '@storage/storageConfig'
 

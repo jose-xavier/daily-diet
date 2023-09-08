@@ -13,7 +13,7 @@ import { Button } from '@components/Button'
 import { Meal } from '@components/Meal'
 import { useTheme } from 'styled-components/native'
 import { ListEmpty } from '@components/ListEmpty'
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 
 import { Container, Title } from './styles'
 
@@ -93,6 +93,7 @@ export function Home() {
         icon="plus"
         color="GRAY"
         onPress={handleGoToRegisterPage}
+        style={{marginBottom: 12}}
       />
 
       <SectionList

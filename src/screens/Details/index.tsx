@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 import { Button } from '@components/Button'
 import { HeaderBackPage } from '@components/HeaderBackPage'
 

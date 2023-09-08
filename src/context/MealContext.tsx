@@ -1,7 +1,8 @@
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 import { mealCreate } from '@storage/meal/mealCreate'
 import { mealGetAll } from '@storage/meal/mealGetAll'
 import { ReactNode, createContext, useCallback, useState } from 'react'
+import { utcToZonedTime } from 'date-fns-tz'
 
 type MealContextProviderProps = {
   children: ReactNode
@@ -12,6 +13,8 @@ export type SumaryMeals = {
   inDiet: number
   offDiet: number
   porcent: number
+  currentStreak: number
+  maxStreak: number
 }
 
 type MealContextTypes = {
@@ -40,27 +43,31 @@ export function MealContextProvider({ children }: MealContextProviderProps) {
   const sumaryMeals: SumaryMeals = meals.reduce(
     (acc, meal) => {
       if (meal.inDiet) {
-        acc.inDiet += 1
+        acc.inDiet += 1;
+        acc.currentStreak += 1; // Incrementa a sequência atual se a refeição estiver dentro da dieta.
+        if (acc.currentStreak > acc.maxStreak) {
+          acc.maxStreak = acc.currentStreak; // Atualiza a maior sequência se necessário.
+        }
+      } else {
+        acc.offDiet += 1;
+        acc.currentStreak = 0; // Zera a sequência atual se a refeição estiver fora da dieta.
       }
-
-      if (!meal.inDiet) {
-        acc.offDiet += 1
-      }
-
-      acc.total += 1
-
-      acc.porcent = Number(((acc.inDiet / acc.total) * 100).toFixed(2))
-
-      return acc
+  
+      acc.total += 1;
+  
+      acc.porcent = Number(((acc.inDiet / acc.total) * 100).toFixed(2));
+  
+      return acc;
     },
     {
       total: 0,
       inDiet: 0,
       offDiet: 0,
       porcent: 0,
-    } as SumaryMeals,
-  )
-
+      currentStreak: 0, // Adicione a sequência atual como uma propriedade inicial.
+      maxStreak: 0, // Adicione a maior sequência como uma propriedade inicial.
+    } as SumaryMeals
+  );
   return (
     <MealContext.Provider
       value={{ meals, addNewMeal, fetchMeals, sumaryMeals }}

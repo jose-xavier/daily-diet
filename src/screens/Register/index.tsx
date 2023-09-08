@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format, setHours } from 'date-fns'
+
 import { z } from 'zod'
 import DateTimePicker from '@react-native-community/datetimepicker'
 
@@ -15,6 +16,7 @@ import { HeaderBackPage } from '@components/HeaderBackPage'
 
 import {
   ButtonDate,
+  ButtonWrapper,
   Container,
   DateAndTimeContainer,
   DateTimeText,
@@ -22,8 +24,9 @@ import {
   Row,
   Title,
 } from './styles'
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 import { mealUpdate } from '@storage/meal/mealUpdate'
+import { utcToZonedTime } from 'date-fns-tz'
 
 type RouteParams = {
   meal: MealDTO
@@ -46,10 +49,13 @@ const newMealFormSchema = z.object({
   }),
 })
 
+
 type newMealFormSchemaType = z.infer<typeof newMealFormSchema>
 
+
 export function Register() {
-  const [date, setDate] = useState(new Date())
+  const timeZone = 'America/Sao_Paulo'; //
+  const [date, setDate] = useState(utcToZonedTime(new Date(), timeZone))
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [showTimePicker, setShowTimePicker] = useState(false)
 
@@ -69,14 +75,19 @@ export function Register() {
     defaultValues: {
       name: meal !== undefined ? meal.name : '',
       description: meal !== undefined ? meal.description : '',
-      date: meal !== undefined ? new Date(meal.date) : new Date(),
-      hour: meal !== undefined ? new Date(meal.date) : new Date(),
+      date: meal !== undefined ? new Date(meal.date) : date,
+      hour: meal !== undefined ? new Date(meal.date) : date,
       inDiet: meal !== undefined ? meal.inDiet : undefined,
     },
   })
 
-  function hangleGoToHomePage() {
+  async function hangleGoToHomePage() {
     navigation.navigate('home')
+  }
+
+  async function hangleGoToFeedbackPage( inDiet: boolean | undefined) {
+    
+    navigation.navigate('feedback', { inDiet })
   }
 
   async function handleCreateAndUpdateMeal(data: newMealFormSchemaType) {
@@ -99,8 +110,7 @@ export function Register() {
       } else {
         addNewMeal(newMeal)
       }
-
-      hangleGoToHomePage()
+      hangleGoToFeedbackPage(newMeal.inDiet)
     } catch (error) {}
   }
 
@@ -108,6 +118,7 @@ export function Register() {
     <Container>
       <HeaderBackPage
         title={meal !== undefined ? 'Editar refeição' : 'Refeição'}
+        
         onPress={hangleGoToHomePage}
       />
 
@@ -161,7 +172,7 @@ export function Register() {
                   </ButtonDate>
                   {showDatePicker && (
                     <DateTimePicker
-                      value={value || new Date()}
+                      value={value}
                       mode="date"
                       display="calendar"
                       onChange={(event, selectedDate) => {
@@ -188,7 +199,7 @@ export function Register() {
                   </ButtonDate>
                   {showTimePicker && (
                     <DateTimePicker
-                      value={value || new Date()}
+                      value={value}
                       mode="time"
                       is24Hour={true}
                       display="spinner"
@@ -226,16 +237,17 @@ export function Register() {
           )}
           defaultValue={true}
         />
+      </Form>
 
-        <Button
-          title={
-            meal !== undefined ? 'Salvar Alterações' : 'Cadastrar Refeição'
-          }
-          color="GRAY"
-          style={{ marginBottom: 32 }}
+        <ButtonWrapper>
+          <Button
+            title={
+              meal !== undefined ? 'Salvar Alterações' : 'Cadastrar Refeição'
+            }
+            color="GRAY"
           onPress={handleSubmit(handleCreateAndUpdateMeal)}
         />
-      </Form>
+        </ButtonWrapper>
     </Container>
   )
 }

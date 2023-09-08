@@ -36,7 +36,6 @@ export const ButtonDate = styled(TouchableOpacity)`
 `
 
 export const DateAndTimeContainer = styled.View`
-  margin-top: 16px;
   flex: 1;
 `
 
@@ -56,4 +55,8 @@ export const DateTimeText = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     font-family: ${theme.FONT_FAMILY.REGULAR};
   `}
+`
+
+export const ButtonWrapper = styled.View`
+  margin: 16px 24px;
 `

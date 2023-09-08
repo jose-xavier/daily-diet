@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components/native'
 
 export const Container = styled.View`
   flex: 1;
-  margin-top: 16px;
 `
 
 export const InputText = styled(TextInput)`

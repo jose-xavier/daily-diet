@@ -16,11 +16,11 @@ export function Statistic() {
 
   return (
     <Container>
-      <HeaderBackPage title="30,21%" inDiet={false} type="statistic" />
+      <HeaderBackPage title={sumaryMeals.porcent} inDiet={false} type="statistic" />
       <Content>
         <Title>Estatísticas gerais</Title>
         <Card
-          value={sumaryMeals.total}
+          value={sumaryMeals.maxStreak}
           description="melhor sequência de pratos dentro da dieta"
           color="GRAY"
         />

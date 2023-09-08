@@ -1,5 +1,5 @@
 import { TouchableOpacityProps } from 'react-native'
-import { MealDTO } from '@components/dtos/MealDTO'
+import { MealDTO } from 'src/dtos/MealDTO'
 
 import { Container, DataText, Divider, StatusColor, Title } from './styles'
 import { format, parseISO } from 'date-fns'

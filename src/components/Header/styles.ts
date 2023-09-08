@@ -13,8 +13,8 @@ export const Logo = styled.Image`
 `
 
 export const Content = styled.View`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
   border-radius: 999px;
   overflow: hidden;
