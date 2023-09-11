@@ -174,7 +174,6 @@ export function Register() {
                     <DateTimePicker
                       value={value}
                       mode="date"
-                      display="calendar"
                       onChange={(event, selectedDate) => {
                         setShowDatePicker(false)
                         onChange(selectedDate)
@@ -201,8 +200,7 @@ export function Register() {
                     <DateTimePicker
                       value={value}
                       mode="time"
-                      is24Hour={true}
-                      display="spinner"
+                      display='clock'
                       onChange={(event, selectedDate) => {
                         setShowTimePicker(false)
                         onChange(selectedDate)
